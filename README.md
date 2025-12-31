@@ -2,6 +2,22 @@
 
 一个现代化、极简、美观的本地静态文件服务器桌面应用，使用 Electron + Vite + React 构建。
 
+## 📸 界面预览
+
+### 浅色主题
+
+<div align="center">
+  <img src="./screenshots/light-1.jpeg" width="45%" alt="浅色主题 - 主界面" />
+  <img src="./screenshots/light-2.jpeg" width="45%" alt="浅色主题 - 运行中" />
+</div>
+
+### 深色主题
+
+<div align="center">
+  <img src="./screenshots/dark-1.jpeg" width="45%" alt="深色主题 - 主界面" />
+  <img src="./screenshots/dark-2.jpeg" width="45%" alt="深色主题 - 运行中" />
+</div>
+
 ## ✨ 功能特性
 
 - 📁 **文件夹选择** - 选择任意文件夹作为静态服务根目录
