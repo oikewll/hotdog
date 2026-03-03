@@ -61,6 +61,11 @@ class StaticServer {
       const clientIp = request.socket.remoteAddress;
       logCallback(`收到请求: ${request.method} ${request.url} (来自 ${clientIp})`);
 
+      // 禁用缓存，确保切换目录后内容实时更新
+      response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      response.setHeader('Pragma', 'no-cache');
+      response.setHeader('Expires', '0');
+
       try {
         await handler(request, response, {
           public: rootPath,
@@ -87,7 +92,7 @@ class StaticServer {
 
       // 启动监听
       await new Promise((resolve, reject) => {
-        this.server.listen(port, 'localhost', () => {
+        this.server.listen(port, '0.0.0.0', () => { // 监听 0.0.0.0 以支持局域网访问
           const protocol = useHttps ? 'https' : 'http';
           const url = `${protocol}://localhost:${port}`;
           logCallback(`✓ 服务器已启动: ${url}`, 'success');
@@ -127,6 +132,13 @@ class StaticServer {
       this.server.close(() => {
         logCallback('✓ 服务器已停止', 'info');
         this.server = null;
+        // 重置配置以防止状态污染
+        this.config = {
+          port: 8080,
+          https: false,
+          directoryListing: true,
+          rootPath: null
+        };
         resolve();
       });
 
