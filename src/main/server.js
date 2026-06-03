@@ -1,6 +1,5 @@
 import http from 'http';
 import https from 'https';
-import path from 'path';
 import fs from 'fs';
 import handler from 'serve-handler';
 import selfsigned from 'selfsigned';
@@ -18,13 +17,12 @@ class StaticServer {
   }
 
   /**
-   * 生成自签名证书
+   * 生成自签名证书（selfsigned v5 起为 async）
    */
-  generateCertificates() {
+  async generateCertificates() {
     if (!this.certificates) {
       const attrs = [{ name: 'commonName', value: 'localhost' }];
-      const pems = selfsigned.generate(attrs, {
-        days: 365,
+      const pems = await selfsigned.generate(attrs, {
         keySize: 2048,
         algorithm: 'sha256'
       });
@@ -84,7 +82,7 @@ class StaticServer {
     // 创建服务器
     try {
       if (useHttps) {
-        const certs = this.generateCertificates();
+        const certs = await this.generateCertificates();
         this.server = https.createServer(certs, requestHandler);
       } else {
         this.server = http.createServer(requestHandler);
