@@ -226,3 +226,18 @@ Hoan
    ```
 
 详细说明请查看 [PNPM_NOTES.md](./PNPM_NOTES.md)
+
+## 🚀 发布流程
+
+本项目使用 [release-please](https://github.com/googleapis/release-please) 自动化版本管理和 GitHub Release 创建：
+
+1. **提交代码** — 按 [Conventional Commits](https://www.conventionalcommits.org/) 规范提交：
+   ```text
+   feat: 添加新功能
+   fix: 修复 Bug
+   docs: 更新文档
+   chore: 杂项维护
+   ```
+2. **推送到 main** — release-please 自动创建一个 `chore: release vX.Y.Z` PR，CHANGELOG 和 `package.json` 版本自动维护
+3. **审查并合并 release PR** — 自动打 tag、创建 GitHub Release
+4. **tag push 触发 build** — `build.yml` 矩阵构建 macOS / Windows / Linux 三平台 Electron 产物，自动上传到对应 Release 下载
