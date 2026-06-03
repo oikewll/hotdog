@@ -47,6 +47,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Recreate dist-electron symlink
+        # dist-electron is a gitignored symlink -> out. electron-builder
+        # expects dist-electron/ at packaging time, so we recreate it after
+        # `npm ci` (which would otherwise leave the path missing in CI).
+        run: |
+          rm -rf dist-electron
+          ln -s out dist-electron
+          ls -la dist-electron
+
       - name: Package (macOS)
         if: matrix.os == 'macos-latest'
         run: npm run package:mac
