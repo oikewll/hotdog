@@ -41,20 +41,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential fakeroot dpkg rpm libarchive-tools python3 \
-            libnss3 libgtk-3-0 libgbm1 libasound2t64 libxss1 libgconf-2-4 \
+            libnss3 libgtk-3-0 libgbm1 libasound2t64 libxss1 \
             libxtst6 libxrandr2 libxcomposite1 libxdamage1 libxkbcommon0 libdrm2
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Recreate dist-electron symlink
-        # dist-electron is a gitignored symlink -> out. electron-builder
-        # expects dist-electron/ at packaging time, so we recreate it after
-        # `npm ci` (which would otherwise leave the path missing in CI).
-        run: |
-          rm -rf dist-electron
-          ln -s out dist-electron
-          ls -la dist-electron
 
       - name: Package (macOS)
         if: matrix.os == 'macos-latest'

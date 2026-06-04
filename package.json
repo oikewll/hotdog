@@ -2,7 +2,7 @@
   "name": "hotdog",
   "version": "1.0.0",
   "description": "🌭 Hotdog - 现代化的本地静态文件服务器",
-  "main": "dist-electron/main/index.js",
+  "main": "out/main/index.js",
   "type": "module",
   "author": "Hoan",
   "license": "MIT",
@@ -39,8 +39,7 @@
       "output": "release"
     },
     "files": [
-      "dist-electron/**/*",
-      "dist/**/*",
+      "out/**/*",
       "package.json"
     ],
     "mac": {
