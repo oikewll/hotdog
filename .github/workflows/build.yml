@@ -69,27 +69,7 @@ jobs:
 
       - name: Generate SHA-256 checksums
         id: checksums
-        working-directory: release
-        run: |
-          set -e
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            powershell -NoProfile -Command "
-              Get-ChildItem -File -Exclude 'checksums.txt','latest*','*.yml','*.blockmap' |
-                ForEach-Object {
-                  $h = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
-                  Add-Content -Path 'checksums.txt' -Value \"$h  $($_.Name)\"
-                }
-            "
-          else
-            for f in *; do
-              case "$f" in
-                checksums.txt|latest*|*.yml|*.blockmap) continue ;;
-              esac
-              [ -f "$f" ] || continue
-              shasum -a 256 "$f" >> checksums.txt
-            done
-          fi
-          cat checksums.txt
+        run: node scripts/generate-checksums.mjs release
 
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
